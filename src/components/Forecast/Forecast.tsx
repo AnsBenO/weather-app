@@ -28,15 +28,9 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
                     <AccordionItem key={index} className="accordion-item">
                         <AccordionItemHeading>
                             <AccordionItemButton>
-<<<<<<< HEAD
                                 <div className="hourly-item">
                                     <img src={`/weather-app/icons/${item.weather[0].icon}.png`} alt="weather" className="icon-small" />
                                     <label className="time">{formatDate(item.dt_txt)}</label>
-=======
-                                <div className="daily-item">
-                                    <img src={`../public/icons/${item.weather[0].icon}.png`} alt="weather" className="icon-small" />
-                                    <label className="day">{forecasteDays[index]}</label>
->>>>>>> 8c6cd57 (Images paths)
                                     <label className="description">{item.weather[0].description}</label>
                                     <label className="temperature">{`${Math.round(item.main.temp - 273.15)}°C`}</label>
                                 </div>
@@ -63,7 +57,7 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
                                 </div>
                                 <div className="hourly-detail-grid-item">
                                     <label >Sea level</label>
-                                    <label >{item.main.sea_level} m</label>
+                                    <label >{item.main.sea_level}m</label>
                                 </div>
                                 <div className="hourly-detail-grid-item">
                                     <label >Feels like</label>
