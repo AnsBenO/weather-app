@@ -32,6 +32,7 @@
 .css-t3ipsp-control {
 	padding: 6px !important;
 	border-radius: 20px !important;
+	z-index: 10;
 }
 
 .select-city-message {
@@ -42,4 +43,12 @@
 	left: 50%;
 	top: 38%;
 	transform: translateX(-50%);
+}
+
+@media (max-height: 280px) {
+
+	.loading,
+	.select-city-message {
+		display: none;
+	}
 }
