@@ -21,24 +21,21 @@ function App() {
 	const [CurrentWeatherData, setCurrentWeatherData] =
 		useState<CurrentWeatherData | null>(null);
 	const [forecastData, setForecastData] = useState<ForecastData | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
 	const [loadingUserLocation, setLoadingUserLocation] = useState<boolean>(true);
-	const [selectCityMsg, setSelectCityMsg] = useState<boolean>(false);
+	const [loading, setLoading] = useState<[boolean, string]>([false, ""]);
 
 	const [userLocation, setUserLocation] = useState<number[]>([0, 0]);
 
 	useEffect(() => {
 		function getUserLocation() {
 			if ("geolocation" in navigator) {
-				setLoading(true);
+				setLoading([true, "Allow Weather to access your location?"]);
 				navigator.geolocation.getCurrentPosition(
 					function (position) {
 						const latitude = position.coords.latitude;
 						const longitude = position.coords.longitude;
 						setUserLocation([latitude, longitude]);
-
 						setLoadingUserLocation(false);
-
 						fetch(`${GEO_API_URL}/locations/${latitude}${longitude}/nearbyCities?radius=20`, geoApiOptions)
 							.then(response => response.json())
 							.then((response: Data) => {
@@ -51,19 +48,19 @@ function App() {
 							})
 							.catch(error => {
 								console.log("Error fetching nearby cities:", error);
-								setSelectCityMsg(true)
+								setLoading([true, "Please select a location..."])
 							});
 					},
 					error => {
 
 						setLoadingUserLocation(false);
-						setSelectCityMsg(true)
+						setLoading([true, "Please select a location..."])
 						console.log("Error getting user location:", error);
 					}
 				);
 			} else {
 				setLoadingUserLocation(false);
-				setSelectCityMsg(true)
+				setLoading([true, "Please select a location.."])
 				console.log("Geolocation is not supported by this browser.");
 			}
 		}
@@ -73,8 +70,8 @@ function App() {
 
 
 	const onSearch = (searchData: SearchData) => {
-		setSelectCityMsg(false)
-		setLoading(true);
+		setLoading([true, "Please wait..."])
+		// setLoading(true);
 		const [latitude, longitude] = searchData.value.split(" ");
 		const fetchCurrentWeather = fetch(
 			`${OPENWEATHER_API_URL}/weather?lat=${latitude}&lon=${longitude}&appid=${OPENWEATHER_API_KEY}`
@@ -93,13 +90,13 @@ function App() {
 				setCurrentWeatherData({ ...weatherResponse, city: searchData.label });
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				setForecastData({ ...forecastResponse, city: searchData.label });
+				setLoading([false, ""])
 
-				setLoading(false);
 			})
 
 			.catch(err => {
 				console.error(err);
-				setLoading(false);
+				setLoading([false, ""]);
 			});
 	};
 
@@ -108,8 +105,8 @@ function App() {
 			{!loadingUserLocation && (
 				<Search onSearchChange={onSearch} userLocation={userLocation} />
 			)}
-			{loading && <div className="loading"></div>}
-			{selectCityMsg && <div className="select-city-message">Please select a location...</div>}
+			{loading[0] && <div className="loading"></div>}
+			{loading[0] && <div className="select-city-message">{loading[1]}</div>}
 			{CurrentWeatherData && <CurrentWeather data={CurrentWeatherData} />}
 			{forecastData && <Forecast data={forecastData} />}
 		</div>
