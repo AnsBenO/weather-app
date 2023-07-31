@@ -59,6 +59,7 @@ function App() {
 					}
 				);
 			} else {
+				setLoadingUserLocation(false);
 				console.log("Geolocation is not supported by this browser.");
 			}
 		}
