@@ -57,7 +57,7 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
                                 </div>
                                 <div className="hourly-detail-grid-item">
                                     <label >Sea level</label>
-                                    <label >{item.main.sea_level}m</label>
+                                    <label >{item.main.sea_level} m</label>
                                 </div>
                                 <div className="hourly-detail-grid-item">
                                     <label >Feels like</label>
