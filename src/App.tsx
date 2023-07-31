@@ -29,7 +29,7 @@ function App() {
 	useEffect(() => {
 		function getUserLocation() {
 			if ("geolocation" in navigator) {
-				setLoading([true, "Allow Weather to access your location?"]);
+				setLoading([true, "Allow Weather to use your location?"]);
 				navigator.geolocation.getCurrentPosition(
 					function (position) {
 						const latitude = position.coords.latitude;
