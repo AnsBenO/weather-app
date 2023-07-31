@@ -1,6 +1,7 @@
 .forecast-div {
     min-height: 600px;
     margin-top: 30px;
+    user-select: none;
     animation: slide-in 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 
 }
