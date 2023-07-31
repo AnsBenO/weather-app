@@ -12,15 +12,8 @@ const CurrentWeather: React.FC<CurrentWeather> = ({ data }) => {
 					<p className="weather-description">{`${data.weather[0].description}`}</p>
 				</div>
 				<img
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 					src={`/weather-app/icons/${data.weather[0].icon}.png`}
-=======
-					src={`../public/icons/${data.weather[0].icon}.png`}
->>>>>>> 8c6cd57 (Images paths)
-=======
-					src={`/icons/${data.weather[0].icon}.png`}
->>>>>>> 55bfcce (Fixed images)
 					alt="weather"
 					className="weather-icon"
 				/>
