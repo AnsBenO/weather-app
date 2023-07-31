@@ -7,6 +7,19 @@ interface ForecastProps {
 }
 
 const Forecast: React.FC<ForecastProps> = ({ data }) => {
+    function formatDate(dateString: string) {
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        const dateObj = new Date(dateString);
+        const day = dateObj.toLocaleString("en-us", { weekday: "short" });
+        const month = months[dateObj.getMonth()];
+        const dayOfMonth = dateObj.getDate();
+        const year = dateObj.getFullYear();
+        const time = `${dateObj.getHours()}:${dateObj.getMinutes().toString().padStart(2, '0')}`;
+
+        return `${day}, ${month} ${dayOfMonth}, ${year} ${time}`;
+    }
+
     return (
         <div className="forecast-div">
             <label className="title">Hourly</label>
@@ -17,7 +30,7 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
                             <AccordionItemButton>
                                 <div className="hourly-item">
                                     <img src={`/weather-app/icons/${item.weather[0].icon}.png`} alt="weather" className="icon-small" />
-                                    <label className="time">{item.dt_txt}</label>
+                                    <label className="time">{formatDate(item.dt_txt)}</label>
                                     <label className="description">{item.weather[0].description}</label>
                                     <label className="temperature">{`${Math.round(item.main.temp - 273.15)}°C`}</label>
                                 </div>
