@@ -21,7 +21,6 @@ function App() {
 	const [CurrentWeatherData, setCurrentWeatherData] =
 		useState<CurrentWeatherData | null>(null);
 	const [forecastData, setForecastData] = useState<ForecastData | null>(null);
-	const [loadingUserLocation, setLoadingUserLocation] = useState<boolean>(true);
 	const [loading, setLoading] = useState<[boolean, string]>([false, ""]);
 
 	const [userLocation, setUserLocation] = useState<number[]>([0, 0]);
@@ -35,7 +34,7 @@ function App() {
 						const latitude = position.coords.latitude;
 						const longitude = position.coords.longitude;
 						setUserLocation([latitude, longitude]);
-						setLoadingUserLocation(false);
+						setLoading([true, "Processing..."])
 						fetch(`${GEO_API_URL}/locations/${latitude}${longitude}/nearbyCities?radius=20`, geoApiOptions)
 							.then(response => response.json())
 							.then((response: Data) => {
@@ -52,14 +51,11 @@ function App() {
 							});
 					},
 					error => {
-
-						setLoadingUserLocation(false);
 						setLoading([true, "Please select a location..."])
 						console.log("Error getting user location:", error);
 					}
 				);
 			} else {
-				setLoadingUserLocation(false);
 				setLoading([true, "Please select a location.."])
 				console.log("Geolocation is not supported by this browser.");
 			}
@@ -71,7 +67,6 @@ function App() {
 
 	const onSearch = (searchData: SearchData) => {
 		setLoading([true, "Please wait..."])
-		// setLoading(true);
 		const [latitude, longitude] = searchData.value.split(" ");
 		const fetchCurrentWeather = fetch(
 			`${OPENWEATHER_API_URL}/weather?lat=${latitude}&lon=${longitude}&appid=${OPENWEATHER_API_KEY}`
@@ -102,7 +97,7 @@ function App() {
 
 	return (
 		<div className="container">
-			{!loadingUserLocation && (
+			{(!(loading[1] === "Processing..." || loading[1] === "Allow Weather to use your location?")) && (
 				<Search onSearchChange={onSearch} userLocation={userLocation} />
 			)}
 			{loading[0] && <div className="loading"></div>}
