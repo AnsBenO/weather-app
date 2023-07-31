@@ -45,7 +45,6 @@
 .icon-small {
     width: 40px;
     cursor: pointer;
-    user-select: none;
 }
 
 .time {

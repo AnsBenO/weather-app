@@ -52,7 +52,6 @@
 
 .weather-icon {
 	width: 100px;
-	user-select: none;
 }
 
 .temp {
