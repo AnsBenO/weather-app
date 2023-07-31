@@ -1,7 +1,6 @@
 .forecast-div {
     min-height: 600px;
     margin-top: 30px;
-    user-select: none;
     animation: slide-in 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 
 }
@@ -69,7 +68,6 @@ label.description {
 
 .hourly-detail-grid {
     grid-row-gap: 0;
-    user-select: none;
     -webkit-tap-highlight-color: transparent;
     grid-column-gap: 15px;
     column-gap: 15px;
@@ -102,28 +100,9 @@ label.description {
 .hourly-detail-grid-item {
     align-items: center;
     display: flex;
-    user-select: none;
     -webkit-tap-highlight-color: transparent;
     height: 30px;
     justify-content: space-between;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-}
-
-.hourly-detail-grid-item>* {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .hourly-detail-grid-item :first-child {
