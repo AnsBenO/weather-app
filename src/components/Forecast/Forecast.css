@@ -76,7 +76,7 @@ label.description {
     flex: 1 1;
     grid-template-columns: auto auto;
     padding: 5px 15px;
-    animation: slide-in .7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation: slide-in .5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @keyframes slide-in {
