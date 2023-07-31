@@ -85,7 +85,7 @@ label.description {
     0% {
         opacity: 0;
         height: 0;
-        transform: rotateY(20deg);
+        transform: rotateY(60deg);
     }
 
     25% {

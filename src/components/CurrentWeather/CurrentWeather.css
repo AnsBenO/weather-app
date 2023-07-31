@@ -15,7 +15,7 @@
 @keyframes slide-in {
 	0% {
 		opacity: 1;
-		transform: rotateY(20deg);
+		transform: rotateY(90deg);
 	}
 
 	50% {
