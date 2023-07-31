@@ -37,6 +37,8 @@
 
 .select-city-message {
 	width: max-content;
+	max-width: 200px;
+	text-align: center;
 	font-size: 14px;
 	color: #212121;
 	font-weight: 700;
