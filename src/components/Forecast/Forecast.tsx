@@ -20,7 +20,7 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
                         <AccordionItemHeading>
                             <AccordionItemButton>
                                 <div className="daily-item">
-                                    <img src={`/icons/${item.weather[0].icon}.png`} alt="weather" className="icon-small" />
+                                    <img src={`/weather-app/icons/${item.weather[0].icon}.png`} alt="weather" className="icon-small" />
                                     <label className="day">{forecasteDays[index]}</label>
                                     <label className="description">{item.weather[0].description}</label>
                                     <label className="min-max">{`${Math.round(item.main.temp_min - 273.15)}°C / ${Math.round(item.main.temp_max - 273.15)}°C`}</label>
