@@ -31,7 +31,7 @@ function App() {
 				setLoading([true, "Allow Weather to use your location?"]);
 
 				const geolocationOptions = {
-					timeout: 4000,
+					timeout: 3000,
 				};
 
 				navigator.geolocation.getCurrentPosition(
