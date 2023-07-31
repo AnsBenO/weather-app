@@ -29,7 +29,7 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
                         <AccordionItemHeading>
                             <AccordionItemButton>
                                 <div className="hourly-item">
-                                    <img src={`/weather-app/icons/${item.weather[0].icon}.png`} alt="weather" className="icon-small" />
+                                    <img src={`/weather-app/icons/${item.weather[0].icon}.png`} alt="weather" className="icon-small" draggable="false" />
                                     <label className="time">{formatDate(item.dt_txt)}</label>
                                     <label className="description">{item.weather[0].description}</label>
                                     <label className="temperature">{`${Math.round(item.main.temp - 273.15)}°C`}</label>

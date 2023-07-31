@@ -16,6 +16,7 @@ const CurrentWeather: React.FC<CurrentWeather> = ({ data }) => {
 					src={`/weather-app/icons/${data.weather[0].icon}.png`}
 					alt="weather"
 					className="weather-icon"
+					draggable="false"
 				/>
 			</div>
 			<div className="bottom">
