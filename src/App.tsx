@@ -29,12 +29,18 @@ function App() {
 		function getUserLocation() {
 			if ("geolocation" in navigator) {
 				setLoading([true, "Allow Weather to use your location?"]);
+
+				const geolocationOptions = {
+					timeout: 1000,
+				};
+
 				navigator.geolocation.getCurrentPosition(
 					function (position) {
 						const latitude = position.coords.latitude;
 						const longitude = position.coords.longitude;
 						setUserLocation([latitude, longitude]);
-						setLoading([true, "Processing..."])
+						setLoading([true, "Processing..."]);
+
 						fetch(`${GEO_API_URL}/locations/${latitude}${longitude}/nearbyCities?radius=20`, geoApiOptions)
 							.then(response => response.json())
 							.then((response: Data) => {
@@ -47,16 +53,17 @@ function App() {
 							})
 							.catch(error => {
 								console.log("Error fetching nearby cities:", error);
-								setLoading([true, "Please select a location..."])
+								setLoading([true, "Failed to fetch nearby cities. Please select a location."]);
 							});
 					},
-					error => {
-						setLoading([true, "Please select a location..."])
+					function (error) {
+						setLoading([true, "Failed to get your location. Please select a location."]);
 						console.log("Error getting user location:", error);
-					}
+					},
+					geolocationOptions
 				);
 			} else {
-				setLoading([true, "Please select a location.."])
+				setLoading([true, "Please select a location.."]);
 				console.log("Geolocation is not supported by this browser.");
 			}
 		}
