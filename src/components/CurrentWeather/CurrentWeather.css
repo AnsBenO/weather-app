@@ -1,5 +1,6 @@
 .weather {
 	min-width: 300px;
+	z-index: 1;
 	max-width: 700px;
 	min-height: 240px;
 	border-radius: 6px;

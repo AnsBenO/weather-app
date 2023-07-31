@@ -23,6 +23,7 @@ function App() {
 	const [forecastData, setForecastData] = useState<ForecastData | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [loadingUserLocation, setLoadingUserLocation] = useState<boolean>(true);
+	const [selectCityMsg, setSelectCityMsg] = useState<boolean>(false);
 
 	const [userLocation, setUserLocation] = useState<number[]>([0, 0]);
 
@@ -50,16 +51,19 @@ function App() {
 							})
 							.catch(error => {
 								console.log("Error fetching nearby cities:", error);
+								setSelectCityMsg(true)
 							});
 					},
 					error => {
 
 						setLoadingUserLocation(false);
+						setSelectCityMsg(true)
 						console.log("Error getting user location:", error);
 					}
 				);
 			} else {
 				setLoadingUserLocation(false);
+				setSelectCityMsg(true)
 				console.log("Geolocation is not supported by this browser.");
 			}
 		}
@@ -69,6 +73,7 @@ function App() {
 
 
 	const onSearch = (searchData: SearchData) => {
+		setSelectCityMsg(false)
 		setLoading(true);
 		const [latitude, longitude] = searchData.value.split(" ");
 		const fetchCurrentWeather = fetch(
@@ -104,6 +109,7 @@ function App() {
 				<Search onSearchChange={onSearch} userLocation={userLocation} />
 			)}
 			{loading && <div className="loading"></div>}
+			{selectCityMsg && <div className="select-city-message">Please select a location...</div>}
 			{CurrentWeatherData && <CurrentWeather data={CurrentWeatherData} />}
 			{forecastData && <Forecast data={forecastData} />}
 		</div>
