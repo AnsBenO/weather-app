@@ -84,3 +84,16 @@
 	font-weight: 600;
 	font-size: 14px;
 }
+
+@media screen and (max-width: 400px) {
+
+	.parameter-value,
+	.parameter-label {
+		font-size: 12px;
+	}
+
+	.temp {
+		font-size: 74px;
+	}
+
+}
