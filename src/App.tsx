@@ -24,9 +24,8 @@ function App() {
 	const [loading, setLoading] = useState<[boolean, string]>([false, ""]);
 
 	const [userLocation, setUserLocation] = useState<number[]>([0, 0]);
-
 	useEffect(() => {
-		function getUserLocation() {
+		const getUserLocation = async () => {
 			if ("geolocation" in navigator) {
 				setLoading([true, "Allow Weather to use your location?"]);
 
@@ -34,42 +33,37 @@ function App() {
 					timeout: 5000,
 				};
 
-				navigator.geolocation.getCurrentPosition(
-					function (position) {
-						const latitude = position.coords.latitude;
-						const longitude = position.coords.longitude;
-						setUserLocation([latitude, longitude]);
-						setLoading([true, "Processing..."]);
+				try {
+					const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+						navigator.geolocation.getCurrentPosition(resolve, reject, geolocationOptions);
+					});
 
-						fetch(`${GEO_API_URL}/locations/${latitude}${longitude}/nearbyCities?radius=20`, geoApiOptions)
-							.then(response => response.json())
-							.then((response: Data) => {
-								const city = response.data[0];
-								const options = {
-									value: `${latitude} ${longitude}`,
-									label: `${city.name}, ${city.countryCode}`,
-								};
-								onSearch(options);
-							})
-							.catch(error => {
-								console.log("Error fetching nearby cities:", error);
-								setLoading([true, "Failed to fetch nearby cities. Please select a location."]);
-							});
-					},
-					function (error) {
-						setLoading([true, "Failed to get your location. Please select a location."]);
-						console.log("Error getting user location:", error);
-					},
-					geolocationOptions
-				);
+					const latitude: number = position.coords.latitude;
+					const longitude: number = position.coords.longitude;
+					setUserLocation([latitude, longitude]);
+					setLoading([true, "Processing..."]);
+
+					const response = await fetch(`${GEO_API_URL}/locations/${latitude}${longitude}/nearbyCities?radius=20`, geoApiOptions);
+					const data: Data = await response.json();
+					const city = data.data[0];
+					const options = {
+						value: `${latitude} ${longitude}`,
+						label: `${city.name}, ${city.countryCode}`,
+					};
+					onSearch(options);
+				} catch (error) {
+					console.log("Error fetching or getting user location:", error);
+					setLoading([true, "Failed to fetch nearby cities. Please select a location."]);
+				}
 			} else {
 				setLoading([true, "Please select a location.."]);
 				console.log("Geolocation is not supported by this browser.");
 			}
-		}
-
-		getUserLocation();
+		};
+		getUserLocation()
+			.catch(err => console.error(err))
 	}, []);
+
 
 
 	const onSearch = (searchData: SearchData) => {
