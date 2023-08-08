@@ -101,7 +101,7 @@ function App() {
 			{(!(loading[1] === "Processing..." || loading[1] === "Allow Weather to use your location?")) && (
 				<Search onSearchChange={onSearch} userLocation={userLocation} />
 			)}
-			{loading[0] && loading[1] !== "Failed to get your location. Please select a location." && <div className="loading"></div>}
+			{loading[0] && loading[1] !== "Failed to fetch nearby cities. Please select a location." && <div className="loading"></div>}
 			{loading[0] && <div className="select-city-message">{loading[1]}</div>}
 			{CurrentWeatherData && <CurrentWeather data={CurrentWeatherData} />}
 			{forecastData && <Forecast data={forecastData} />}
