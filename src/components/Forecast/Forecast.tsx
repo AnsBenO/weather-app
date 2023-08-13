@@ -22,7 +22,7 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
 
     return (
         <div className="forecast-div">
-            <label className="title">Hourly</label>
+            <label className="title">Extented Forecast</label>
             <Accordion>
                 {data.list.map((item, index) => (
                     <AccordionItem key={index} className="accordion-item">
