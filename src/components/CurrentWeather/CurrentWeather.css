@@ -6,7 +6,7 @@
 	border-radius: 6px;
 	box-shadow: 10px 0px 20px 2px rgb(0 0 0 / 10%);
 	margin: 20px auto 0 auto;
-	background-color: var(--item-bg);
+	background-color: var(--item-lighter-bg);
 	padding: 0 20px 20px 20px;
 	animation: slide-in 1s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
