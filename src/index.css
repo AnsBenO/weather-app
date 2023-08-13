@@ -16,8 +16,8 @@
 
 :root {
 	--bg: #d4d4d4;
-	--item-bg: rgba(255, 255, 255, 0.5);
-	--item-lighter-bg: rgba(255, 255, 255, 0.2);
+	--item-bg: rgba(255, 255, 255, 0.4);
+	--item-lighter-bg: rgba(255, 255, 255, 0.153);
 }
 
 body {
