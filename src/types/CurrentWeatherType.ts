@@ -1,4 +1,4 @@
-export interface CurrentWeatherData {
+export default interface CurrentWeatherData {
 	city: string;
 	coord: Coord;
 	weather: Weather[];
@@ -52,5 +52,3 @@ export interface Wind {
 	speed: number;
 	deg: number;
 }
-
-///////////////////////////////////////

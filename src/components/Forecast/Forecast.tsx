@@ -1,5 +1,5 @@
 import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from "react-accessible-accordion";
-import { ForecastData } from "../../types/ForecastType";
+import ForecastData from "../../types/ForecastType";
 import "./Forecast.css"
 
 interface ForecastProps {

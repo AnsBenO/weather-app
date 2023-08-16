@@ -1,5 +1,5 @@
-export interface ForecastData {
-	city: City;
+export default interface ForecastData {
+	city: string;
 	cod: string;
 	message: number;
 	cnt: number;

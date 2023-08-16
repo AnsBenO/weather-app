@@ -1,20 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect, useState } from "react";
 import "./App.css";
 import { GEO_API_URL, OPENWEATHER_API_KEY, OPENWEATHER_API_URL, geoApiOptions } from "./api";
 import CurrentWeather from "./components/CurrentWeather/CurrentWeather";
 import Search from "./components/Search/Search";
-import { CurrentWeatherData } from "./types/CurrentWeatherType";
-import { City, ForecastData } from "./types/ForecastType";
+import CurrentWeatherData from "./types/CurrentWeatherType";
+import ForecastData from "./types/ForecastType";
 import Forecast from "./components/Forecast/Forecast";
+import GeolocationData from "./types/GeolocationType";
 
 interface SearchData {
 	value: string;
 	label: string;
-}
-
-interface Data {
-	data: City[];
 }
 
 function App() {
@@ -44,7 +40,7 @@ function App() {
 					setLoading([true, "Processing..."]);
 
 					const response = await fetch(`${GEO_API_URL}/locations/${latitude}${longitude}/nearbyCities?radius=20`, geoApiOptions);
-					const data: Data = await response.json();
+					const data = await response.json() as unknown as GeolocationData;
 					const city = data.data[0];
 					const options = {
 						value: `${latitude} ${longitude}`,
@@ -78,13 +74,11 @@ function App() {
 		);
 
 		Promise.all([fetchCurrentWeather, fetchForecast])
-			.then(async response => {
-				const weatherResponse: CurrentWeatherData = await response[0].json();
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				const forecastResponse = await response[1].json();
+			.then(async (response) => {
+				const weatherResponse: CurrentWeatherData = await response[0].json() as unknown as CurrentWeatherData;
+				const forecastResponse = await response[1].json() as unknown as ForecastData;
 
 				setCurrentWeatherData({ ...weatherResponse, city: searchData.label });
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				setForecastData({ ...forecastResponse, city: searchData.label });
 				setLoading([false, ""])
 

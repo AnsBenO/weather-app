@@ -1,5 +1,5 @@
 import "./CurrentWeather.css";
-import { CurrentWeatherData } from "../../types/CurrentWeatherType";
+import CurrentWeatherData from "../../types/CurrentWeatherType";
 interface CurrentWeather {
 	data: CurrentWeatherData;
 }
