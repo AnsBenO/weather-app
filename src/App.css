@@ -29,13 +29,6 @@
 	}
 }
 
-.css-13cymwt-control,
-.css-t3ipsp-control {
-	padding: 6px !important;
-	border-radius: 20px !important;
-	z-index: 10;
-}
-
 .select-city-message {
 	width: max-content;
 	max-width: 200px;
