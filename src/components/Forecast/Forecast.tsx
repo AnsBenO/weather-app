@@ -56,9 +56,8 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
                                     <label >{item.wind.speed} m/s</label>
                                 </div>
                                 <div className="hourly-detail-grid-item">
-                                    <label >Sea level</label>
-                                    <label >{item.main.sea_level} m</label>
-                                </div>
+                                    <label>Visibility</label>
+                                    <label>{(item.visibility / 1000).toFixed(2)} km</label>                                </div>
                                 <div className="hourly-detail-grid-item">
                                     <label >Feels like</label>
                                     <label >{Math.round(item.main.feels_like - 273.15)}°C</label>
