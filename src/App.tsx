@@ -40,7 +40,7 @@ function App() {
 					setLoading([true, "Processing..."]);
 
 					const response = await fetch(`${GEO_API_URL}/locations/${latitude}${longitude}/nearbyCities?radius=20`, geoApiOptions);
-					const data = await response.json() as unknown as GeolocationData;
+					const data = await response.json() as GeolocationData;
 					const city = data.data[0];
 					const options = {
 						value: `${latitude} ${longitude}`,
@@ -75,8 +75,8 @@ function App() {
 
 		Promise.all([fetchCurrentWeather, fetchForecast])
 			.then(async (response) => {
-				const weatherResponse: CurrentWeatherData = await response[0].json() as unknown as CurrentWeatherData;
-				const forecastResponse = await response[1].json() as unknown as ForecastData;
+				const weatherResponse: CurrentWeatherData = await response[0].json() as CurrentWeatherData;
+				const forecastResponse = await response[1].json() as ForecastData;
 
 				setCurrentWeatherData({ ...weatherResponse, city: searchData.label });
 				setForecastData({ ...forecastResponse, city: searchData.label });
