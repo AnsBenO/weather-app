@@ -39,7 +39,6 @@ const CurrentWeather: React.FC<CurrentWeather> = ({ data }) => {
 					<div className="parameter-row">
 						<span className="parameter-label">Presure</span>
 						<span className="parameter-value">
-							{" "}
 							{`${data.main.pressure} hPa`}
 						</span>
 					</div>
