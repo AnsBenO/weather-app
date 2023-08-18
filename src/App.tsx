@@ -3,15 +3,12 @@ import "./App.css";
 import { GEO_API_URL, OPENWEATHER_API_KEY, OPENWEATHER_API_URL, geoApiOptions } from "./api";
 import CurrentWeather from "./components/CurrentWeather/CurrentWeather";
 import Search from "./components/Search/Search";
-import CurrentWeatherData from "./types/CurrentWeatherType";
-import ForecastData from "./types/ForecastType";
+import CurrentWeatherData from "./types/CurrentWeatherData.type";
+import ForecastData from "./types/ForecastData.type";
 import Forecast from "./components/Forecast/Forecast";
-import GeolocationData from "./types/GeolocationType";
+import GeolocationData from "./types/GeolocationData.type";
+import SearchData from "./types/SearchData.type";
 
-interface SearchData {
-	value: string;
-	label: string;
-}
 
 function App() {
 	const [CurrentWeatherData, setCurrentWeatherData] =

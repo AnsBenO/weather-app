@@ -6,18 +6,6 @@ export default interface ForecastData {
 	list: List[];
 }
 
-export interface City {
-	countryCode: string;
-	id: number;
-	name: string;
-	coord: Coord;
-	country: string;
-	population: number;
-	timezone: number;
-	sunrise: number;
-	sunset: number;
-}
-
 export interface Coord {
 	lat: number;
 	lon: number;

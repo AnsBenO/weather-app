@@ -2,42 +2,26 @@ import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { GEO_API_URL, geoApiOptions } from "../../api";
 import "./Search.css";
+import SearchData from "../../types/SearchData.type";
+import City from "../../types/City.type";
 
 interface Data {
 	data: City[];
 }
 
-interface City {
-	id: number;
-	wikiDataId: string;
-	type: string;
-	city: string;
-	name: string;
-	country: string;
-	countryCode: string;
-	region: string;
-	regionCode: string;
-	regionWdId: string;
-	latitude: number;
-	longitude: number;
-	population: number;
-}
-
 interface Search {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	onSearchChange: (value: any) => void;
+	onSearchChange: (value: SearchData) => void;
 	userLocation: number[];
 }
 
 const Search: React.FC<Search> = ({ onSearchChange, userLocation }) => {
-	const [searchValue, setSearchValue] = useState<string | unknown>("");
+	const [searchValue, setSearchValue] = useState<string | SearchData>("");
 
 	const handleOnChange = (inputValue: unknown) => {
-		setSearchValue(inputValue);
-		onSearchChange(inputValue);
+		setSearchValue(inputValue as SearchData);
+		onSearchChange(inputValue as SearchData);
 	};
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const LoadOptions: any = async (search: string) => {
+	const LoadOptions = async (search: string): Promise<{ options: SearchData[] }> => {
 		const joinedUserLocation = userLocation.join("");
 		const fetchUrl =
 			search !== "" || (userLocation[0] === 0 && userLocation[0] === 0)
@@ -45,19 +29,22 @@ const Search: React.FC<Search> = ({ onSearchChange, userLocation }) => {
 				}&limit=10&minPopulation=100000&sort=-population`
 				: `${GEO_API_URL}/locations/${joinedUserLocation}/nearbyCities?radius=100`;
 
-		return fetch(fetchUrl, geoApiOptions)
-			.then(response => response.json())
-			.then((response: Data) => {
-				return {
-					options: response.data.map((city: City) => {
-						return {
-							value: `${city.latitude} ${city.longitude}`,
-							label: `${city.name}, ${city.countryCode}`,
-						};
-					}),
-				};
-			}).catch(err => console.error(err));
+		try {
+			const response = await fetch(fetchUrl, geoApiOptions);
+			const responseData = await response.json() as Data;
+
+			const options: SearchData[] = responseData.data.map((city: City) => ({
+				value: `${city.latitude} ${city.longitude}`,
+				label: `${city.name}, ${city.countryCode}`,
+			}));
+
+			return { options };
+		} catch (err) {
+			console.error(err);
+			return { options: [] };
+		}
 	};
+
 	return (
 		<AsyncPaginate
 			className="asyncPag"
@@ -65,7 +52,6 @@ const Search: React.FC<Search> = ({ onSearchChange, userLocation }) => {
 			value={searchValue}
 			onChange={handleOnChange}
 			debounceTimeout={600}
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			loadOptions={LoadOptions}
 		/>
 	);
