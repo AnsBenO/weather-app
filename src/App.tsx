@@ -18,6 +18,7 @@ function App() {
 
 	const [userLocation, setUserLocation] = useState<number[]>([0, 0]);
 	useEffect(() => {
+		//* Getting user's location 
 		const getUserLocation = async () => {
 			if ("geolocation" in navigator) {
 				setLoading([true, "Allow Weather to use your location?"]);
