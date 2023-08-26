@@ -23,7 +23,7 @@ function App() {
 				setLoading([true, "Allow Weather to use your location?"]);
 
 				const geolocationOptions = {
-					timeout: 9000,
+					timeout: 10000,
 				};
 
 				try {
