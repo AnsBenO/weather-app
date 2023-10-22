@@ -5,16 +5,16 @@ import "./Search.css";
 import SearchData from "../../types/SearchData.type";
 import City from "../../types/City.type";
 
-interface Data {
+interface OptionsData {
 	data: City[];
 }
 
-interface Search {
+interface SearchProps {
 	onSearchChange: (value: SearchData) => void;
 	userLocation: number[];
 }
 
-const Search: React.FC<Search> = ({ onSearchChange, userLocation }) => {
+const Search: React.FC<SearchProps> = ({ onSearchChange, userLocation }) => {
 	const [searchValue, setSearchValue] = useState<string | SearchData>("");
 
 	const handleOnChange = (inputValue: unknown) => {
@@ -31,7 +31,7 @@ const Search: React.FC<Search> = ({ onSearchChange, userLocation }) => {
 
 		try {
 			const response = await fetch(fetchUrl, geoApiOptions);
-			const responseData = await response.json() as Data;
+			const responseData = await response.json() as OptionsData;
 
 			const options: SearchData[] = responseData.data.map((city: City) => ({
 				value: `${city.latitude} ${city.longitude}`,

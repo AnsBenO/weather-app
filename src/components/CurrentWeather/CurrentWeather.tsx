@@ -1,9 +1,9 @@
 import "./CurrentWeather.css";
 import CurrentWeatherData from "../../types/CurrentWeatherData.type";
-interface CurrentWeather {
+interface CurrentWeatherProps {
 	data: CurrentWeatherData;
 }
-const CurrentWeather: React.FC<CurrentWeather> = ({ data }) => {
+const CurrentWeather: React.FC<CurrentWeatherProps> = ({ data }) => {
 	return (
 		<div className="weather">
 			<div className="top">
