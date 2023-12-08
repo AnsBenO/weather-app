@@ -1,34 +1,44 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { GEO_API_URL, geoApiOptions } from "../../api";
 import "./Search.css";
 import SearchData from "../../types/SearchData.type";
 import City from "../../types/City.type";
+import { useSelector } from "react-redux";
+import { selectCoord } from "../../store/slices/weatherSlice";
 
 interface OptionsData {
 	data: City[];
 }
 
 interface SearchProps {
-	onSearchChange: (value: SearchData) => void;
-	userLocation: number[];
+	onSearch: (value: SearchData) => void;
 }
 
-const Search: React.FC<SearchProps> = ({ onSearchChange, userLocation }) => {
+const Search: React.FC<SearchProps> = ({ onSearch }) => {
+	const userLocation = useSelector(selectCoord)
 	const [searchValue, setSearchValue] = useState<string | SearchData>("");
+
 
 	const handleOnChange = (inputValue: unknown) => {
 		setSearchValue(inputValue as SearchData);
-		onSearchChange(inputValue as SearchData);
+		onSearch(inputValue as SearchData);
 	};
-	const LoadOptions = async (search: string): Promise<{ options: SearchData[] }> => {
-		const joinedUserLocation = userLocation.join("");
-		const fetchUrl =
-			search !== "" || (userLocation[0] === 0 && userLocation[0] === 0)
-				? `${GEO_API_URL}/cities?namePrefix=${search === "" ? "london" : search
-				}&limit=10&minPopulation=100000&sort=-population`
-				: `${GEO_API_URL}/locations/${joinedUserLocation}/nearbyCities?radius=100`;
+	const LoadOptions = useCallback(async (search: SearchData | string): Promise<{ options: SearchData[] }> => {
+		const joinedUserLocation = userLocation ? Object.values(userLocation).reverse().join("") : [35.56666667, -5.36666667].join("");
 
+		let fetchUrl;
+		if (typeof search === "string") {
+			if (search !== "") {
+				fetchUrl = `${GEO_API_URL}/cities?namePrefix=${search}&limit=10&minPopulation=100000&sort=-population`;
+			} else {
+				fetchUrl = `${GEO_API_URL}/locations/${joinedUserLocation}/nearbyCities?radius=100`;
+			}
+		} else {
+			const { value } = search;
+			fetchUrl = `${GEO_API_URL}/locations/${value.replace(/\s/g, "")}/nearbyCities?radius=100`;
+			console.log(fetchUrl);
+		}
 		try {
 			const response = await fetch(fetchUrl, geoApiOptions);
 			const responseData = await response.json() as OptionsData;
@@ -43,7 +53,7 @@ const Search: React.FC<SearchProps> = ({ onSearchChange, userLocation }) => {
 			console.error(err);
 			return { options: [] };
 		}
-	};
+	}, [userLocation]);
 
 	return (
 		<AsyncPaginate
