@@ -85,9 +85,7 @@ export const getUserLocation = createAsyncThunk(
 
                 void thunkAPI.dispatch(fetchWeatherData(options));
             } else {
-                throw new Error(
-                    "Geolocation is not supported by this browser."
-                );
+                return thunkAPI.rejectWithValue("Error getting user location");
             }
         } catch (error) {
             return thunkAPI.rejectWithValue(
@@ -147,8 +145,10 @@ const weatherSlice = createSlice({
             .addCase(getUserLocation.rejected, (state, action) => {
                 state.loading = {
                     status: false,
-                    message: action.payload as string,
+                    message:
+                        "Failed to get your location, please select a location",
                 };
+                state.error = action.payload as string;
             });
     },
 });
