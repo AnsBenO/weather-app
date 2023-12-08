@@ -31,7 +31,7 @@ function App() {
 			{loading.status && <div className="loading"></div>}
 			{loading.status && <div className="select-city-message">{loading.message}</div>}
 			{!loading.status && error && (
-				<div className="select-city-message">{loading.message}</div>
+				<div className="error-message">{loading.message}</div>
 			)}
 			{!loading.status && !(loading.message === "Processing..." || loading.message === "Allow Weather to use your location?") && (
 				<Search />
