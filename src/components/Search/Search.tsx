@@ -4,21 +4,27 @@ import { GEO_API_URL, geoApiOptions } from "../../api";
 import "./Search.css";
 import SearchData from "../../types/SearchData.type";
 import City from "../../types/City.type";
-import { useSelector } from "react-redux";
-import { selectCoord } from "../../store/slices/weatherSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWeatherData, selectCoord } from "../../store/slices/weatherSlice";
+import { AppDispatch } from "../../store/store";
 
 interface OptionsData {
 	data: City[];
 }
 
-interface SearchProps {
-	onSearch: (value: SearchData) => void;
-}
 
-const Search: React.FC<SearchProps> = ({ onSearch }) => {
+const Search: React.FC = () => {
 	const userLocation = useSelector(selectCoord)
 	const [searchValue, setSearchValue] = useState<string | SearchData>("");
+	const dispatch = useDispatch<AppDispatch>();
 
+
+	const onSearch = useCallback((searchData: SearchData) => {
+		dispatch(fetchWeatherData(searchData))
+			.catch((error) => {
+				console.error("An unknown error occurred:", error as string);
+			});
+	}, [dispatch]);
 
 	const handleOnChange = (inputValue: unknown) => {
 		setSearchValue(inputValue as SearchData);
