@@ -37,7 +37,6 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
 		} else {
 			const { value } = search;
 			fetchUrl = `${GEO_API_URL}/locations/${value.replace(/\s/g, "")}/nearbyCities?radius=100`;
-			console.log(fetchUrl);
 		}
 		try {
 			const response = await fetch(fetchUrl, geoApiOptions);
