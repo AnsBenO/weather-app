@@ -28,12 +28,24 @@ function App() {
 
 	return (
 		<main className="container">
-			{loading.status && <div className="loading"></div>}
-			{loading.status && <div className="select-city-message">{loading.message}</div>}
-			{!loading.status && error && (
-				<div className="error-message">{loading.message}</div>
-			)}
-			{!loading.status && !(loading.message === "Processing..." || loading.message === "Allow Weather to use your location?") && (
+			{(loading.status || loading.message !== "") &&
+
+				<div className="message-container">
+					{loading.status &&
+						<div className="loader-container">
+							<div className="loading"></div>
+						</div>
+
+					}
+					{loading.status && <div className="select-city-message">{loading.message}</div>}
+					{!loading.status && error && (
+						<div className="error-message">{loading.message}</div>
+					)}
+
+				</div>
+
+			}
+			{!(loading.message === "Processing..." || loading.message === "Allow Weather to use your location?") && (
 				<Search />
 			)}
 			<div className="current">
