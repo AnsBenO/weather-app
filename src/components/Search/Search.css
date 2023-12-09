@@ -39,8 +39,8 @@
 	}
 }
 
-#react-select-5-listbox,
-#react-select-5-listbox>* {
+.css-1nmdiq5-menu,
+.css-1nmdiq5-menu>* {
 	animation: fadeIn 0.3s ease;
 	border-radius: 15px !important;
 }
