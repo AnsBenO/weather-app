@@ -138,7 +138,7 @@ const weatherSlice = createSlice({
             .addCase(getUserLocation.pending, state => {
                 state.loading = {
                     status: true,
-                    message: "Allow Weather to use your location?",
+                    message: "Please allow Weather to use your location",
                 };
                 state.error = null;
             })
