@@ -11,6 +11,7 @@ import { RootState } from "../store";
 import SearchData from "../../types/SearchData.type";
 import GeolocationData from "../../types/GeolocationData.type";
 
+// Interface for the Weather State
 interface WeatherState {
     currentWeather: CurrentWeatherData | null;
     forecast: ForecastData | null;
@@ -18,12 +19,14 @@ interface WeatherState {
     error: string | null;
 }
 
+// Async thunk to fetch weather data
 export const fetchWeatherData = createAsyncThunk(
     "weather/fetchWeatherData",
     async (searchData: SearchData, thunkAPI) => {
         try {
             const { value, label } = searchData;
             const [latitude, longitude] = value.split(" ");
+
             const fetchCurrentWeather = fetch(
                 `${OPENWEATHER_API_URL}/weather?lat=${latitude}&lon=${longitude}&appid=${OPENWEATHER_API_KEY}`
             );
@@ -50,6 +53,7 @@ export const fetchWeatherData = createAsyncThunk(
     }
 );
 
+// Async thunk to get user location
 export const getUserLocation = createAsyncThunk(
     "weather/getUserLocation",
     async (_, thunkAPI) => {
@@ -97,6 +101,7 @@ export const getUserLocation = createAsyncThunk(
     }
 );
 
+// Weather state
 const weatherSlice = createSlice({
     name: "weather",
     initialState: {
@@ -153,6 +158,7 @@ const weatherSlice = createSlice({
     },
 });
 
+// Selectors
 export const selectCurrentWeather = (state: RootState) =>
     state.weather.currentWeather;
 export const selectForecast = (state: RootState) => state.weather.forecast;
@@ -160,4 +166,6 @@ export const selectLoading = (state: RootState) => state.weather.loading;
 export const selectError = (state: RootState) => state.weather.error;
 export const selectCoord = (state: RootState) =>
     state.weather.currentWeather?.coord;
+
+// Weather reducer
 export const weatherReducer = weatherSlice.reducer;
