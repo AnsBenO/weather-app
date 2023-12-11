@@ -1,12 +1,13 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { GEO_API_URL, geoApiOptions } from "../../api";
 import "./Search.css";
 import SearchData from "../../types/SearchData.type";
 import City from "../../types/City.type";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWeatherData, selectCoord } from "../../store/slices/weatherSlice";
+import { selectCoord } from "../../store/slices/weatherSlice";
 import { AppDispatch } from "../../store/store";
+import { fetchWeatherData } from "../../store/thunks/fetchWeatherDate";
 
 interface OptionsData {
 	data: City[];
@@ -19,18 +20,18 @@ const Search: React.FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 
 
-	const onSearch = useCallback((searchData: SearchData) => {
+	const onSearch = (searchData: SearchData) => {
 		dispatch(fetchWeatherData(searchData))
 			.catch((error) => {
 				console.error("An unknown error occurred:", error as string);
 			});
-	}, [dispatch]);
+	};
 
 	const handleOnChange = (inputValue: unknown) => {
 		setSearchValue(inputValue as SearchData);
 		onSearch(inputValue as SearchData);
 	};
-	const LoadOptions = useCallback(async (search: SearchData | string): Promise<{ options: SearchData[] }> => {
+	const LoadOptions = async (search: SearchData | string): Promise<{ options: SearchData[] }> => {
 		const joinedUserLocation = userLocation ? Object.values(userLocation).reverse().join("") : [35.56666667, -5.36666667].join("");
 
 		let fetchUrl;
@@ -43,6 +44,7 @@ const Search: React.FC = () => {
 		} else {
 			const { value } = search;
 			fetchUrl = `${GEO_API_URL}/locations/${value.replace(/\s/g, "")}/nearbyCities?radius=100`;
+
 		}
 		try {
 			const response = await fetch(fetchUrl, geoApiOptions);
@@ -58,17 +60,23 @@ const Search: React.FC = () => {
 			console.error(err);
 			return { options: [] };
 		}
-	}, [userLocation]);
+	};
 
 	return (
-		<AsyncPaginate
-			className="asyncPag"
-			placeholder="Search for city..."
-			value={searchValue}
-			onChange={handleOnChange}
-			debounceTimeout={600}
-			loadOptions={LoadOptions}
-		/>
+		<>
+
+			<AsyncPaginate
+				className="asyncPag"
+				placeholder="Search for city..."
+				value={searchValue}
+				onChange={handleOnChange}
+				debounceTimeout={600}
+				loadOptions={LoadOptions}
+				loadOptionsOnMenuOpen={true}
+
+			/>
+
+		</>
 	);
 };
 

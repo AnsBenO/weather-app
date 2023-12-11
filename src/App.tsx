@@ -4,8 +4,9 @@ import CurrentWeather from "./components/CurrentWeather/CurrentWeather";
 import Search from "./components/Search/Search";
 import Forecast from "./components/Forecast/Forecast";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserLocation, selectError, selectLoading } from "./store/slices/weatherSlice";
+import { selectError, selectLoading } from "./store/slices/weatherSlice";
 import { AppDispatch } from "./store/store";
+import { getUserLocation } from "./store/thunks/getUserLoaction";
 
 
 function App() {

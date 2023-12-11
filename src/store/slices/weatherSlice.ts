@@ -1,15 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import {
-    OPENWEATHER_API_URL,
-    OPENWEATHER_API_KEY,
-    GEO_API_URL,
-    geoApiOptions,
-} from "../../api";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import CurrentWeatherData from "../../types/CurrentWeatherData.type";
 import ForecastData from "../../types/ForecastData.type";
 import { RootState } from "../store";
-import SearchData from "../../types/SearchData.type";
-import GeolocationData from "../../types/GeolocationData.type";
+import { fetchWeatherData } from "../thunks/fetchWeatherDate";
+import { getUserLocation } from "../thunks/getUserLoaction";
 
 // Interface for the Weather State
 interface WeatherState {
@@ -18,88 +12,6 @@ interface WeatherState {
     loading: { status: boolean; message: string };
     error: string | null;
 }
-
-// Async thunk to fetch weather data
-export const fetchWeatherData = createAsyncThunk(
-    "weather/fetchWeatherData",
-    async (searchData: SearchData, thunkAPI) => {
-        try {
-            const { value, label } = searchData;
-            const [latitude, longitude] = value.split(" ");
-
-            const fetchCurrentWeather = fetch(
-                `${OPENWEATHER_API_URL}/weather?lat=${latitude}&lon=${longitude}&appid=${OPENWEATHER_API_KEY}`
-            );
-            const fetchForecast = fetch(
-                `${OPENWEATHER_API_URL}/forecast?lat=${latitude}&lon=${longitude}&appid=${OPENWEATHER_API_KEY}`
-            );
-
-            const [currentWeatherResponse, forecastResponse] =
-                await Promise.all([fetchCurrentWeather, fetchForecast]);
-
-            let currentWeather =
-                (await currentWeatherResponse.json()) as CurrentWeatherData;
-            currentWeather = { ...currentWeather, city: label };
-            const forecast = (await forecastResponse.json()) as ForecastData;
-
-            return { currentWeather, forecast, label };
-        } catch (error) {
-            return thunkAPI.rejectWithValue(
-                error instanceof Error
-                    ? error.message
-                    : "Error fetching weather data"
-            );
-        }
-    }
-);
-
-// Async thunk to get user location
-export const getUserLocation = createAsyncThunk(
-    "weather/getUserLocation",
-    async (_, thunkAPI) => {
-        try {
-            if ("geolocation" in navigator) {
-                const geolocationOptions = {
-                    timeout: 10000,
-                };
-
-                const position = await new Promise<GeolocationPosition>(
-                    (resolve, reject) => {
-                        navigator.geolocation.getCurrentPosition(
-                            resolve,
-                            reject,
-                            geolocationOptions
-                        );
-                    }
-                );
-
-                const latitude: number = position.coords.latitude;
-                const longitude: number = position.coords.longitude;
-
-                const response = await fetch(
-                    `${GEO_API_URL}/locations/${latitude}${longitude}/nearbyCities?radius=20`,
-                    geoApiOptions
-                );
-                const data = (await response.json()) as GeolocationData;
-                const city = data.data[0];
-                const options = {
-                    value: `${latitude} ${longitude}`,
-                    label: `${city.name}, ${city.countryCode}`,
-                };
-
-                void thunkAPI.dispatch(fetchWeatherData(options));
-            } else {
-                return thunkAPI.rejectWithValue("Error getting user location");
-            }
-        } catch (error) {
-            return thunkAPI.rejectWithValue(
-                error instanceof Error
-                    ? error.message
-                    : "Error getting user location"
-            );
-        }
-    }
-);
 
 // Weather state
 const weatherSlice = createSlice({
