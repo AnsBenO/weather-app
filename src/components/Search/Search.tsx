@@ -13,26 +13,27 @@ interface OptionsData {
 	data: City[];
 }
 
-
 const Search: React.FC = () => {
-	const userLocation = useSelector(selectCoord)
+	const userLocation = useSelector(selectCoord);
 	const [searchValue, setSearchValue] = useState<string | SearchData>("");
 	const dispatch = useDispatch<AppDispatch>();
 
-
 	const onSearch = (searchData: SearchData) => {
-		dispatch(fetchWeatherData(searchData))
-			.catch((error) => {
-				console.error("An unknown error occurred:", error as string);
-			});
+		dispatch(fetchWeatherData(searchData)).catch(error => {
+			console.error("An unknown error occurred:", error as string);
+		});
 	};
 
 	const handleOnChange = (inputValue: unknown) => {
 		setSearchValue(inputValue as SearchData);
 		onSearch(inputValue as SearchData);
 	};
-	const LoadOptions = async (search: SearchData | string): Promise<{ options: SearchData[] }> => {
-		const joinedUserLocation = userLocation ? Object.values(userLocation).reverse().join("") : [35.56666667, -5.36666667].join("");
+	const LoadOptions = async (
+		search: SearchData | string
+	): Promise<{ options: SearchData[] }> => {
+		const joinedUserLocation = userLocation
+			? Object.values(userLocation).reverse().join("")
+			: [35.56666667, -5.36666667].join("");
 
 		let fetchUrl;
 		if (typeof search === "string") {
@@ -43,17 +44,21 @@ const Search: React.FC = () => {
 			}
 		} else {
 			const { value } = search;
-			fetchUrl = `${GEO_API_URL}/locations/${value.replace(/\s/g, "")}/nearbyCities?radius=100`;
-
+			fetchUrl = `${GEO_API_URL}/locations/${value.replace(
+				/\s/g,
+				""
+			)}/nearbyCities?radius=100`;
 		}
 		try {
 			const response = await fetch(fetchUrl, geoApiOptions);
-			const responseData = await response.json() as OptionsData;
+			const responseData = (await response.json()) as OptionsData;
 
-			const options: SearchData[] = responseData.data.map((city: City) => ({
-				value: `${city.latitude} ${city.longitude}`,
-				label: `${city.name}, ${city.countryCode}`,
-			}));
+			const options: SearchData[] = responseData.data.map(
+				(city: City) => ({
+					value: `${city.latitude} ${city.longitude}`,
+					label: `${city.name}, ${city.countryCode}`,
+				})
+			);
 
 			return { options };
 		} catch (err) {
@@ -63,8 +68,6 @@ const Search: React.FC = () => {
 	};
 
 	return (
-
-
 		<AsyncPaginate
 			className="asyncPag"
 			placeholder="Search for city..."
@@ -72,10 +75,7 @@ const Search: React.FC = () => {
 			onChange={handleOnChange}
 			debounceTimeout={600}
 			loadOptions={LoadOptions}
-
 		/>
-
-
 	);
 };
 

@@ -6,7 +6,7 @@ import Forecast from "./components/Forecast/Forecast";
 import { useDispatch, useSelector } from "react-redux";
 import { selectError, selectLoading } from "./store/slices/weatherSlice";
 import { AppDispatch } from "./store/store";
-import { getUserLocation } from "./store/thunks/getUserLoaction";
+import { getUserLocation } from "./store/thunks/getUserLocaction";
 
 function App() {
 	const loading = useSelector(selectLoading);

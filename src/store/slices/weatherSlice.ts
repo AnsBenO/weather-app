@@ -3,7 +3,7 @@ import CurrentWeatherData from "../../types/CurrentWeatherData.type";
 import ForecastData from "../../types/ForecastData.type";
 import { RootState } from "../store";
 import { fetchWeatherData } from "../thunks/fetchWeatherDate";
-import { getUserLocation } from "../thunks/getUserLoaction";
+import { getUserLocation } from "../thunks/getUserLocaction";
 
 // Interface for the Weather State
 interface WeatherState {
