@@ -63,20 +63,19 @@ const Search: React.FC = () => {
 	};
 
 	return (
-		<>
 
-			<AsyncPaginate
-				className="asyncPag"
-				placeholder="Search for city..."
-				value={searchValue}
-				onChange={handleOnChange}
-				debounceTimeout={600}
-				loadOptions={LoadOptions}
-				loadOptionsOnMenuOpen={true}
 
-			/>
+		<AsyncPaginate
+			className="asyncPag"
+			placeholder="Search for city..."
+			value={searchValue}
+			onChange={handleOnChange}
+			debounceTimeout={600}
+			loadOptions={LoadOptions}
 
-		</>
+		/>
+
+
 	);
 };
 
